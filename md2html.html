@@ -1,0 +1,75 @@
+<html>
+  <head>
+      <script type="text/javascript" src="../js/jquery-3.4.0.js"></script>
+      <script type="text/javascript" src="../js/marked.js"></script>
+    </head>
+  <body>
+
+    <div id="text" style="display: none;"></div>
+
+    <div id="preview" class="markdown-body"></div>
+
+    <script>
+      var filename = "";
+      var arg = new Object;
+      var pair=location.search.substring(1).split('&');
+
+      for(var i=0;pair[i];i++) {
+        var kv = pair[i].split('=');
+        arg[kv[0]]=kv[1];
+      }
+      filename = arg.file;
+
+      if(!filename){
+        alert("URLを「?file=ファイル名」で指定してください。");
+        reutrn ;
+      }
+
+      //
+      var cssname = filename;
+      cssname = cssname.replace('./', '');
+      cssname = cssname.replace('.md', '.css');
+
+      var header = '<!DOCTYPE html>\n';
+      header += '<html>\n';
+      header += '<head>\n';
+      header += '<title>"+filename+"</title>\n';
+      header += '<link rel="stylesheet" href="./css/' + cssname + '">\n';
+      header += '</head>\n';
+      header += '<body>\n';
+
+      var footer = '</body>\n';
+      footer += '</html>\n';
+
+      // ファイルの読み込み
+      $(function() {
+        marked.setOptions({
+          langPrefix: ''
+      });
+
+      $.get(filename, function(data){
+        $("#text").text(data);
+        $('#preview').html(marked(data));
+        var text = header;
+        text += $('#preview').html();
+        text += footer;
+
+        var blob = new Blob([text], {type: "text/plain"}); // バイナリデータを作ります。
+
+        //
+        var savename = filename;
+        savename = savename.replace('./', '');
+        savename = savename.replace('.md', '.html');
+
+        // ファイル保存
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.target = '_blank';
+        a.download = savename;
+        a.click();
+
+        });
+      });
+    </script>
+  </body>
+</html>

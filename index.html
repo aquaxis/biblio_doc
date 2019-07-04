@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Markdownで立派にアウトプット</title>
+  <link rel="stylesheet" href="css/book.css">
+  <style>
+    @page {
+      font-family: "Noto Serif CJK JP Regular", serif;
+      font-size: 16pt;
+      @top-left { content: none; }
+      @top-right { content: none; }
+      @bottom-center { content: none; }
+    }
+    @page :first {                /* 表紙ページ */
+      background-color: white;       /* ページ全体に背景色 */
+      margin: -3mm;                   /* ページ内容を塗り足し領域まではみ出させる */
+      @top-left { content: none; }    /* 表紙ページはページヘッダー／フッター無し */
+      @top-right { content: none; }
+      @bottom-center { content: none; }
+    }
+    header {                      /* 表紙のタイトルのまわり */
+      background: tomato;
+      padding: 5vh 5vw;
+      font-size: 20pt;
+      font-family: "Noto Sans CJK JP Regular";
+    }
+    header h1 {
+      font-size: 4rem;
+      text-align: center;
+      color: white;
+    }
+    nav {                         /* 目次 */
+      break-before: page;             /* 目次の前で改ページ */
+    }
+    nav li a {                    /* 目次項目のページ番号を点線でのばして右寄せにするため */
+      display: inline-flex;           /* インラインの Flexbox を利用 */
+      width: 100%;
+      text-decoration: none;
+      color: currentColor;
+      align-items: baseline;
+    }
+    nav li a::before {            /* 目次項目の点線を生成 */
+      margin-left: 0.5em;
+      margin-right: 0.5em;
+      border-bottom: 1px dotted;
+      content: "";
+      order: 1;
+      flex: auto;
+    }
+    nav li a::after {             /* 目次項目のページ番号参照を生成 */
+      content: target-counter(attr(href), page);  /* リンク先のページ番号カウンタの値を出力 */
+      align-self: flex-end;
+      flex: none;
+      order: 2;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span style="font-size: 24pt;color: #FFF;">Markdown組版</span>
+    <hr style="color: #FFF;">
+    <span style="font-size: 14pt;color: #FFF;">Markdownを下書きだけで終わらせない組版システムの構築</span>
+  </header>
+  <div style="width: 100%; font-size: 20pt; text-align: right;">
+      <br>
+      <br>
+      <br>
+      <br>
+    <img src="images/icon1.jpg"><br>
+    石原 ひでみ 著<br>
+  </div>
+  <nav id="toc" role="doc-toc">
+    <span style="font-size: 16pt;">目次</span>
+    <ul>
+        <li><a href="chapter0.html">はじめに</a>
+        <li><a href="chapter1.html">Markdownで組版</a>
+        <li><a href="chapter2.html">Markdown文法</a>
+        <!--ul>
+          <li><a href="chapter2.html#section1">はじめのセクション</a></li>
+          <li><a href="chapter2.html#section2">ふたつめのセクション</a></li>
+        </ul-->
+        <li><a href="chapter9.html">あとがき</a>
+      </li>
+    </ul>
+  </nav>
+</body>
+</html>
+

@@ -1,0 +1,253 @@
+/*** Print sample ***/
+
+/* defaults  for screen */
+#print-head,
+#print-foot {
+    display: none;
+}
+
+body {
+  font-size: 9pt;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  counter-reset: ChapterNum SubChapterNum SectionNum;
+/*  font-family: 'Ubuntu', serif;*/
+  font-family: "Noto Serif CJK JP Regular", serif;
+/*  font-family: 'Noto Sans Japanese', serif;*/
+  font-feature-settings: "palt" on;
+/*  margin: 30mm 30mm 30mm 0mm;*/
+/*  padding: 10mm 10mm 10mm 0mm;*/
+}
+
+/* print only */
+/*@media print {*/
+
+/*
+@page:first {
+    counter-reset: page 5;
+}
+*/
+
+  @page {
+    counter-increment: page;
+/*    size: 182mm 257mm;*/
+    size: 188mm 263mm;
+    margin-top: 13mm;
+    margin-bottom: 13mm;
+    margin-left: 18mm;
+    margin-right: 18mm;
+/*    font-family: 'Ubuntu', serif;*/
+/*    font-family: "Noto Sans CJK JP Regular", serif;*/
+    font-size: 9pt;
+    vertical-align: top;
+    marks: crop cross;      /* トンボを付ける */
+    bleed: 3mm;             /* 塗り足し領域 */
+  }
+
+  @page:right{
+    border-top:    1pt solid #000;
+    border-bottom: 1pt solid #000;
+    padding-top: 10mm;
+    padding-bottom: 10mm;
+
+    @top-right {
+      font-size: 10pt;
+/*      font-family: 'Ubuntu', sans;*/
+      font-family: "Noto Sans CJK JP Regular";
+      margin-top: 8mm;
+/*      content: "第一章 セクションA";*/
+      content: env(doc-title);
+    }
+
+    @bottom-right {
+      margin-bottom: 8mm;
+      content: counter(page);
+    }
+  }
+
+  @page:left{
+    border-top:    1pt solid #000;
+    border-bottom: 1pt solid #000;
+    padding-top: 10mm;
+    padding-bottom: 10mm;
+
+    @top-left {
+      font-size: 10pt;
+/*      font-family: 'Ubuntu', sans;*/
+      font-family: "Noto Sans CJK JP Regular";
+      margin-top: 8mm;
+/*      content: "第一章 セクションA";*/
+      content: env(pub-title);
+    }
+
+    @bottom-left {
+      margin-bottom: 8mm;
+      content: counter(page);
+    }
+  }
+
+  h1 {
+    page-break-before: left;
+    font-size: 20pt;
+/*     font-family: 'Ubuntu', sans;*/
+     font-family: "Noto Sans CJK JP Regular";
+     padding-top: 2em;
+     string-set: Chapter self;
+     counter-reset: SubChapterNum FigImageNum FigTableNum FigCodeNum;
+  }
+
+  h1:first-child {
+    page-break-before: avoid;
+  }
+
+  h1::before {
+    counter-increment: ChapterNum;
+    content: counter(ChapterNum) ". ";
+  }
+
+  h2 {
+    font-size: 18pt;
+/*     font-family: 'Ubuntu', sans;*/
+    font-family: "Noto Sans CJK JP Regular";
+    counter-reset: SectionNum;
+  }
+
+  h2::before {
+    counter-increment: SubChapterNum;
+    content: counter(ChapterNum) "-" counter(SubChapterNum) ". ";
+  }
+
+  h3 {
+    font-size: 16pt;
+/*     font-family: 'Ubuntu', sans;*/
+    font-family: "Noto Sans CJK JP Regular";
+}
+
+  h3::before {
+    counter-increment: SectionNum;
+    content: counter(ChapterNum) "-" counter(SubChapterNum) "-" counter(SectionNum) ". ";
+  }
+
+  h4{
+    font-size: 14pt;
+/*     font-family: 'Ubuntu', sans;*/
+    font-family: "Noto Sans CJK JP Regular";
+  }
+
+  h5{
+    font-size: 12pt;
+/*     font-family: 'Ubuntu', sans;*/
+    font-family: "Noto Sans CJK JP Regular";
+  }
+
+  h6{
+    font-size: 10pt;
+/*     font-family: 'Ubuntu', sans;*/
+    font-family: "Noto Sans CJK JP Regular";
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+
+
+/*
+  figure {
+    text-align: center;
+    position: relative
+    margin: auto;
+  }
+*/
+  figure {
+    margin: 0px 0px 0px 0px;
+  }
+
+  pre {
+    background-color: #f0f0f0;
+    border-style: solid;
+    border-width: 1px;
+    margin: 0px;
+    white-space: pre-wrap ;
+    text-align: left;
+  }
+
+  code {
+    white-space: pre-wrap ;
+    text-align: left;
+  }
+
+  figcaption.image::before {
+    counter-increment: FigImageNum;
+    content: "図" counter(ChapterNum) "-" counter(FigImageNum) ": ";
+  }
+
+  figcaption.table::before {
+    counter-increment: FigTableNum;
+    content: "表" counter(ChapterNum) "-" counter(FigTableNum) ": ";
+  }
+
+  figcaption.code:before {
+    counter-increment: FigCodeNum;
+    content: "リスト" counter(ChapterNum) "-" counter(FigCodeNum) ": ";
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  table, th, td{
+    border: 1px solid black;
+  }
+
+  th {
+    background-color: rgb(134, 215, 218)
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .frontmatter a::after { content: target-counter(attr(href url), page, lower-roman) }
+  .bodymatter a::after { content: target-counter(attr(href url), page) }
+
+  .ChapterRef::before {
+    content: "第" target-counter(attr(href, url), ChapterNum) "章";
+  }
+
+  .SubChapterRef::before {
+    content: target-counter(attr(href, url), ChapterNum) "-" target-counter(attr(href, url), SubChapterNum) ".";
+  }
+
+  .SectionRef::before {
+    content: target-counter(attr(href, url), ChapterNum) "-" target-counter(attr(href, url), SubChapterNum)  "-" target-counter(attr(href, url), SectionNum) ".";
+  }
+
+  .PageRef::after {
+    content: "(page " target-counter(attr(href, url), page) ")";
+  }
+
+  .FigImageRef::before {
+    content: "図" target-counter(attr(href, url), ChapterNum) "-" target-counter(attr(href, url), FigImageNum);
+  }
+
+  .FigTableRef::before {
+    content: "表" target-counter(attr(href, url), ChapterNum) "-" target-counter(attr(href, url), FigTableNum);
+  }
+
+  .FigCodeRef::before {
+    content: "リスト" target-counter(attr(href, url), ChapterNum) "-" target-counter(attr(href, url), FigCodeNum);
+  }
+
+  .newPage::before {
+    page-break-before: always;
+  }
+
+  /* no support: target-text */
+  /*
+  .TitleRef::before {
+    content: target-text(attr(href, url), content);
+  }
+  */
+
+/*}*/

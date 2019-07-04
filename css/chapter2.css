@@ -1,0 +1,24 @@
+@import url("print.css");
+/*
+@page:first {
+  counter-reset: page 4;
+}
+*/
+
+body {
+  counter-reset: ChapterNum 1;
+/*  column-count: 2;*/
+  column-gap: 0.18in;
+}
+
+@page:right{
+  @top-right {
+    content: "Markdown組版 第二章"
+  }
+}
+
+@page:left{
+  @top-left {
+    content: "Markdown組版"
+  }
+}

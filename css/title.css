@@ -1,0 +1,47 @@
+/*** Print sample ***/
+
+/* defaults  for screen */
+#print-head,
+#print-foot {
+    display: none;
+}
+
+body {
+  font-size: 32pt;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  counter-reset: ChapterNum SubChapterNum SectionNum;
+/*  font-family: 'Ubuntu', serif;*/
+  font-family: "Noto Serif CJK JP Regular", serif;
+/*  font-family: 'Noto Sans Japanese', serif;*/
+  font-feature-settings: "palt" on;
+  color: aliceblue;
+/*  margin: 30mm 30mm 30mm 0mm;*/
+/*  padding: 10mm 10mm 10mm 0mm;*/
+  text-align: right;
+}
+
+/* print only */
+/*@media print {*/
+
+/*
+@page:first {
+    counter-reset: page 5;
+}
+*/
+
+  @page {
+    counter-increment: page;
+/*    size: 182mm 257mm;*/
+    size: 188mm 263mm;
+    margin-top: 13mm;
+    margin-bottom: 0mm;
+    margin-left: 18mm;
+    margin-right: 18mm;
+/*    font-family: 'Ubuntu', serif;*/
+/*    font-family: "Noto Sans CJK JP Regular", serif;*/
+    font-size: 9pt;
+    vertical-align: top;
+    background-color: lightslategray;
+  }
+

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="js/pdf-designer.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+//CSVファイルを読み込む関数getCSV()の定義
+//function getFILE(){
+
+    var filename = "";
+      var arg = new Object;
+      var pair=location.search.substring(1).split('&');
+
+      for(var i=0;pair[i];i++) {
+        var kv = pair[i].split('=');
+        arg[kv[0]]=kv[1];
+      }
+      filename = arg.file;
+console.log(`File:`+filename);
+
+      if(!filename){
+        alert("URLを「?file=ファイル名」で指定してください。");
+        reutrn ;
+      }
+
+    var req = new XMLHttpRequest(); // HTTPでファイルを読み込むためのXMLHttpRrequestオブジェクトを生成
+    req.open("get", filename, true); // アクセスするファイルを指定
+    req.responseType = "arraybuffer";
+    req.send(null); // HTTPリクエストの発行
+
+    // レスポンスが返ってきたらconvertCSVtoArray()を呼ぶ
+    req.onload = function(){
+//        console.log(req.response);
+        var Stream = new Uint8Array(req.response);
+        var Analyst = new TPDFAnalyst();
+        try {
+            Analyst.LoadFromStream(Stream);
+
+            if (Analyst.Encrypt) {
+                console.log('暗号化されているファイルには対応していません。');
+            } else {
+                console.log(
+                    'PDFファイル - [' + Analyst.PageCount +
+                    'ページ / PDF' + Analyst.Version + ']');
+            }
+        } catch (e) {
+            Analyst = null;
+            console.log('PDFファイル - 未対応');
+            return;
+        }
+
+        console.log(Analyst);
+        var info = new TPDFDocInfo(Analyst);
+        console.log(info.Title);
+
+        var PDFInfoMaker = new TPDFInfoMaker();
+
+        // 文書情報
+        PDFInfoMaker.Info.Title         = 'Markdown組版';
+        PDFInfoMaker.Info.Subject       = 'Markdownを下書きだけで終わらせない組版システムの構築';
+        PDFInfoMaker.Info.Author        = '石原 ひでみ';
+        PDFInfoMaker.Info.Keywords      = 'Markdown';
+        PDFInfoMaker.Info.Creator       = '石原 ひでみ';
+        PDFInfoMaker.Info.Producer      = '石原 ひでみ';
+        PDFInfoMaker.Info.CreationDate  = `20190505120000`;
+        PDFInfoMaker.Info.ModDate       = `20190505120000`;
+
+        // 表示設定(サムネイル)
+        PDFInfoMaker.View.PageMode   = TPDFPageMode.pmUseThumbs;
+        PDFInfoMaker.View.PageLayout = TPDFPageLayout.plTwoColumnRight;
+        console.log(PDFInfoMaker);
+
+        // 文書情報を追加してPDFを保存
+        //
+        var savename = filename;
+        savename = savename.replace('./', '');
+        savename = savename.replace('.pdf', '_all.pdf');
+        PDFInfoMaker.SaveToFile(savename, Analyst);
+    }
+
+</script>
+</head>
+<body>
+</body>
+</html>

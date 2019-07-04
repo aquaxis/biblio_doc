@@ -1,0 +1,37 @@
+@import url("print.css");
+
+@page:first {
+  counter-reset: page 64;
+}
+
+body {
+  counter-reset: ChapterNum -1;
+}
+
+@page:right{
+  @top-right {
+    content: "";
+  }
+}
+
+@page:left{
+  @top-left {
+    content: "";
+  }
+}
+
+h1 {
+  page-break-before: always;
+}
+
+h1::before {
+  content: "";
+}
+
+h2::before {
+  content: "";
+}
+
+h3::before {
+  content: "";
+}
