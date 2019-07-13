@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="js/pdf-designer.js" type="text/javascript"></script>
+<script src="/js/pdf-designer.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 //CSVファイルを読み込む関数getCSV()の定義
@@ -75,7 +75,7 @@ console.log(`File:`+filename);
         //
         var savename = filename;
         savename = savename.replace('./', '');
-        savename = savename.replace('.pdf', '_all.pdf');
+//        savename = savename.replace('.pdf', '_all.pdf');
         PDFInfoMaker.SaveToFile(savename, Analyst);
     }
 
