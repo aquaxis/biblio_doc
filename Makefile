@@ -1,35 +1,38 @@
 PORT=8000
 
+HTTP_SERVER=python -m SimpleHTTPServer $(PORT)
+HTTP_DOWN=pkill -f '$(HTTP_SERVER)'
+
 .PHONY: all
 
 all: index
 
 index: chapter0 chapter1 chapter2 chapter9
-	python -m SimpleHTTPServer &
+	$(HTTP_SERVER) &
 	node js/createPDF.js $(PORT) index
 	node js/modifyPDF.js $(PORT) index
-	pkill python
+	$(HTTP_DOWN)
 	evince index.pdf &
 
 chapter0:
-	python -m SimpleHTTPServer &
+	$(HTTP_SERVER) &
 	node js/createHTML.js $(PORT) chapter0
-	pkill python
+	$(HTTP_DOWN)
 
 chapter1:
-	python -m SimpleHTTPServer &
+	$(HTTP_SERVER) &
 	node js/createHTML.js $(PORT) chapter1
-	pkill python
+	$(HTTP_DOWN)
 
 chapter2:
-	python -m SimpleHTTPServer &
+	$(HTTP_SERVER) &
 	node js/createHTML.js $(PORT) chapter2
-	pkill python
+	$(HTTP_DOWN)
 
 chapter9:
-	python -m SimpleHTTPServer &
+	$(HTTP_SERVER) &
 	node js/createHTML.js $(PORT) chapter9
-	pkill python
+	$(HTTP_DOWN)
 
 setup:
 	wget https://github.com/vivliostyle/vivliostyle.js/releases/download/2019.1.106/vivliostyle-js-2019.1.106.zip
