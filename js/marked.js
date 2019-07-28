@@ -1075,7 +1075,9 @@ Renderer.prototype.table = function(header, body) {
   // [Hidemi] Added figure and figcaption
   var out = '';
   out = '<figure>';
-  out += '<figcaption class="table">' + CaptionTitle + '</figcaption>';
+  if(CaptionTitle !== ''){
+    out += '<figcaption class="table">' + CaptionTitle + '</figcaption>';
+  }
   out += '<table>\n'
   + '<thead>\n'
   + header
