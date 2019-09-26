@@ -15,7 +15,7 @@
 ```
 <span id="LIST1"></span>
 
-表などのキャプションは「<a class="FigTableRef" href="#TABLE1"></a>」のように付けることが出来るので参照することが可能です。
+表などのキャプションは「<a class="FigTableRef" href="#TABLE1"></a>」のように付けることができるので参照することが可能です。
 
 
 ```txt:表のタイトル2
